@@ -213,6 +213,9 @@ public class TP2 extends Application {
 			}
 			
 			JouerMusique(playingPosition);
+			
+			boutonJouer.setVisible(false);
+			boutonPause.setVisible(true);
 		}
 	}
 	
@@ -230,6 +233,9 @@ public class TP2 extends Application {
 			}
 			
 			JouerMusique(playingPosition);
+			
+			boutonJouer.setVisible(false);
+			boutonPause.setVisible(true);
 		}
 	}
 	

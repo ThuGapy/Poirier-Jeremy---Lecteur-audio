@@ -2,22 +2,31 @@ import java.io.File;
 
 import javafx.collections.MapChangeListener;
 import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
 public class Piste {
 	private String titre;
 	private String album;
 	private String artiste;
-	private Duration duree;
+	private double duree;
 	private Media audio;
 	private int positionPlaylist;
 	
 	public Piste(File fichier) {
 		audio = new Media(fichier.toURI().toString());
 		
-		duree = audio.getDuration();
+		positionPlaylist = TP2.PlaylistSize + 1;
 		
-		positionPlaylist = TP2.Playlist.size() + 1;
+		MediaPlayer mediaPlayer = new MediaPlayer(audio);
+		
+		mediaPlayer.setOnReady(new Runnable() {
+			@Override
+			public void run() {
+				duree = audio.getDuration().toSeconds();		
+				TP2.playlistTable.refresh();
+			}
+		});
 		
 		audio.getMetadata().addListener((MapChangeListener<String, Object>) change -> {
 			if (change.wasAdded()) {
@@ -35,9 +44,8 @@ public class Piste {
 		        /*System.out.println("Champ ajouté : " + change.getKey().toString());
 		        System.out.println("Valeur du champ : " + change.getValueAdded().toString());*/
 		    }
-		    else {
-		        System.out.println("Champ supprimé : " + change.getKey().toString());
-		    }
+			
+			TP2.playlistTable.refresh();
 		});
 	}
 	
@@ -53,7 +61,7 @@ public class Piste {
 		return artiste;
 	}
 	
-	public Duration getDuration() {
+	public double getDuration() {
 		return duree;
 	}
 	
@@ -63,5 +71,28 @@ public class Piste {
 	
 	public int getPosition() {
 		return positionPlaylist;
+	}
+	
+	public void setPosition(int position) {
+		positionPlaylist = position;
+	}
+	
+	public static String formatDoubleZero(int number) {
+		if(number < 10) {
+			return "0" + number;
+		} else if(number == 0) {
+			return "00";
+		} else {
+			return Integer.toString(number);
+		}
+	}
+	
+	public static String formatDuration(double duration) {
+		int flooredDuration = (int) Math.floor(duration);
+		
+		int minutes = (int) Math.floor(flooredDuration/60);
+		int seconds = flooredDuration - (minutes*60);
+		
+		return minutes + ":" + formatDoubleZero(seconds);
 	}
 }

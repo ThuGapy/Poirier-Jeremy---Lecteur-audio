@@ -3,7 +3,6 @@ import java.io.File;
 import javafx.collections.MapChangeListener;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.util.Duration;
 
 public class Piste {
 	private String titre;
@@ -41,8 +40,6 @@ public class Piste {
 					titre = change.getValueAdded().toString();
 					break;
 				}
-		        /*System.out.println("Champ ajouté : " + change.getKey().toString());
-		        System.out.println("Valeur du champ : " + change.getValueAdded().toString());*/
 		    }
 			
 			TP2.playlistTable.refresh();

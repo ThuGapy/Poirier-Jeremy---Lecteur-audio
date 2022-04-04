@@ -29,16 +29,16 @@ public class Piste {
 		
 		audio.getMetadata().addListener((MapChangeListener<String, Object>) change -> {
 			if (change.wasAdded()) {
-				switch((String)change.getKey()) {
-				case "artist":
-					artiste = change.getValueAdded().toString();
-					break;
-				case "album":
-					album = change.getValueAdded().toString();
-					break;
-				case "title":
-					titre = change.getValueAdded().toString();
-					break;
+				switch((String) change.getKey()) {
+					case "artist":
+						artiste = change.getValueAdded().toString();
+						break;
+					case "album":
+						album = change.getValueAdded().toString();
+						break;
+					case "title":
+						titre = change.getValueAdded().toString();
+						break;
 				}
 		    }
 			

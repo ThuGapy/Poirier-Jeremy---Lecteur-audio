@@ -158,6 +158,7 @@ public class TP2 extends Application {
 			
 			boutonPause.setVisible(false);
 			boutonJouer.setVisible(true);
+			boutonJouer.requestFocus();
 		});
 		
 		boutonPause.setVisible(false);
@@ -212,10 +213,10 @@ public class TP2 extends Application {
 				playingPosition++;
 			}
 			
-			JouerMusique(playingPosition);
-			
 			boutonJouer.setVisible(false);
 			boutonPause.setVisible(true);
+			
+			JouerMusique(playingPosition);
 		}
 	}
 	
@@ -232,10 +233,10 @@ public class TP2 extends Application {
 				playingPosition--;
 			}
 			
-			JouerMusique(playingPosition);
-			
 			boutonJouer.setVisible(false);
 			boutonPause.setVisible(true);
+			
+			JouerMusique(playingPosition);
 		}
 	}
 	
@@ -250,9 +251,27 @@ public class TP2 extends Application {
 		isPaused = false;
 		playingPosition = PlaylistPosition;
 		
+		SelectPlayingMusic();
+		
 		playingArtist = Playlist.get(PlaylistPosition).getArtist();
 		playingTitle = Playlist.get(PlaylistPosition).getTitle();
 		playingDuration = (int) Playlist.get(PlaylistPosition).getDuration();
+	}
+	
+	public void SelectPlayingMusic() {
+		int i = 0;
+		for(Object row : playlistTable.getItems()) {
+			Piste piste = (Piste) row;
+			
+			if(piste.getPosition() == playingPosition + 1) {
+				playlistTable.requestFocus();
+				playlistTable.getSelectionModel().select(i);
+				playlistTable.getFocusModel().focus(i);
+				return;
+			}
+			
+			i++;
+		}
 	}
 	
 	public void CreerInformationLecture(Stage primaryStage, StackPane root) {
@@ -287,7 +306,7 @@ public class TP2 extends Application {
 		labelPosition.setTextAlignment(TextAlignment.RIGHT);
 		
 		StackPane.setAlignment(labelPosition, Pos.BOTTOM_RIGHT);
-		StackPane.setMargin(labelPosition, new Insets(0, 15, 35, 0));
+		StackPane.setMargin(labelPosition, new Insets(0, 15, 25, 0));
 		
 		root.getChildren().addAll(labelTitre, labelArtiste, labelProgres, labelDuree, labelPosition);
 		
@@ -427,7 +446,7 @@ public class TP2 extends Application {
 		    return row ;
 		});
 		
-		colonnePosition.prefWidthProperty().bind(newTableView.widthProperty().multiply(0.12));
+		colonnePosition.prefWidthProperty().bind(newTableView.widthProperty().multiply(0.11));
 		colonneArtiste.prefWidthProperty().bind(newTableView.widthProperty().multiply(0.22));
 		colonneAlbum.prefWidthProperty().bind(newTableView.widthProperty().multiply(0.22));
 		colonneTitre.prefWidthProperty().bind(newTableView.widthProperty().multiply(0.22));
